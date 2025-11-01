@@ -6,7 +6,7 @@
 
 ## 中文
 
-本仓库用于生成多平台 Chromium Cronet 组件二进制文件（Android、Windows、Linux、macOS、iOS）。所有平台使用同一个稳定版本。
+本仓库提供跨平台 Cronet 二进制文件，支持 Android、Windows、Linux、macOS 和 iOS 平台。所有平台使用同一稳定版本。
 
 ### 工作原理
 
@@ -34,7 +34,7 @@
 
 ## English
 
-This repository is used to generate multi-platform Chromium Cronet component binaries (Android, Windows, Linux, macOS, iOS). All platforms use the same stable version.
+This repository provides cross-platform Cronet binaries for Android, Windows, Linux, macOS, and iOS. All platforms use the same stable version.
 
 ### How it works
 
