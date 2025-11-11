@@ -24,20 +24,21 @@ jobs:
       run: |
         # 使用 aria2c 多线程下载
         echo "开始下载 Chromium 源码..."
-        aria2c -x 16 -s 16 https://chromium.googlesource.com/chromium/src/+archive/refs/tags/${{ env.CHROMIUM_VERSION }} -o chromium-${{ env.CHROMIUM_VERSION }}.tar.xz
+        aria2c -x 16 -s 16 https://chromium.googlesource.com/chromium/src/+archive/refs/tags/${{ env.CHROMIUM_VERSION }}.tar.gz -o chromium-${{ env.CHROMIUM_VERSION }}.tar.gz
         
-        # 加速 tar 解压 - 使用多线程 xz 解压
+        # 创建目标目录
+        mkdir -p ${{ env.CHROMIUM_VERSION }}
+        
+        # 加速 tar 解压 - 使用多线程 pigz 解压
         echo "开始解压 Chromium 源码..."
-        # 方法1: 使用多线程 xz 解压 (推荐)
-        time tar -I 'xz -T 0 -v' -xf chromium-${{ env.CHROMIUM_VERSION }}.tar.xz
+        # 方法1: 使用 pigz 多线程解压 (推荐)
+        time tar --use-compress-program="pigz -p 0" -xzf chromium-${{ env.CHROMIUM_VERSION }}.tar.gz -C ${{ env.CHROMIUM_VERSION }}
         
         # 如果上面的方法不工作，可以使用以下替代方案:
-        # 方法2: 先解压到临时目录再移动
-        # mkdir -p temp_extract && cd temp_extract
-        # time tar -I 'xz -T 0' -xf ../chromium-${{ env.CHROMIUM_VERSION }}.tar.xz
-        # mv * ../ && cd .. && rmdir temp_extract
+        # 方法2: 使用标准 tar 但添加缓冲区优化
+        # time tar -xzf chromium-${{ env.CHROMIUM_VERSION }}.tar.gz --blocking-factor=128 -C ${{ env.CHROMIUM_VERSION }}
         
-        mv chromium-${{ env.CHROMIUM_VERSION }} src
+        mv ${{ env.CHROMIUM_VERSION }} src
         
         echo "Chromium 代码已成功下载并解压"
 
