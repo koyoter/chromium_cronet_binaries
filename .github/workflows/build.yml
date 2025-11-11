@@ -24,7 +24,7 @@ jobs:
       run: |
         # 使用 aria2c 多线程下载
         echo "开始下载 Chromium 源码..."
-        aria2c -x 16 -s 16 https://github.com/chromium/chromium/archive/refs/tags/${{ env.CHROMIUM_VERSION }}.tar.gz -o chromium-${{ env.CHROMIUM_VERSION }}.tar.gz
+        aria2c -x 16 -s 16 https://commondatastorage.googleapis.com/chromium-browser-official/chromium-${{ env.CHROMIUM_VERSION }}.tar.xz -o chromium-${{ env.CHROMIUM_VERSION }}.tar.gz
         
         # 创建目标目录
         mkdir -p ${{ env.CHROMIUM_VERSION }}
@@ -34,6 +34,8 @@ jobs:
         # 使用 pigz 多线程解压
         time pigz -d -c chromium-${{ env.CHROMIUM_VERSION }}.tar.gz | tar x -C ${{ env.CHROMIUM_VERSION }}
         
+        rm chromium-${{ env.CHROMIUM_VERSION }}.tar.gz
+
         mv ${{ env.CHROMIUM_VERSION }} src
         
         echo "Chromium 代码已成功下载并解压"
