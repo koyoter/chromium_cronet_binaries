@@ -20,6 +20,11 @@ jobs:
         echo "CHROMIUM_VERSION=${{ github.event.inputs.chromium_version }}" >> $GITHUB_ENV
         echo "SHOULD_BUILD=${{ github.event.inputs.should_build }}" >> $GITHUB_ENV
 
+    - name: 安装必要工具
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y pixz
+
     - name: 下载 Chromium 源码
       run: |
         # 使用 aria2c 多线程下载
