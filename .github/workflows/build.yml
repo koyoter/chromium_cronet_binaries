@@ -20,6 +20,11 @@ jobs:
         echo "CHROMIUM_VERSION=${{ github.event.inputs.chromium_version }}" >> $GITHUB_ENV
         echo "SHOULD_BUILD=${{ github.event.inputs.should_build }}" >> $GITHUB_ENV
 
+    - name: 安装必要工具
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y pixz aria2c
+
     - name: 下载 Chromium 源码
       run: |
         # 使用 aria2c 多线程下载
@@ -29,10 +34,10 @@ jobs:
         # 创建目标目录
         mkdir -p ${{ env.CHROMIUM_VERSION }}
         
-        # 加速 tar 解压 - 使用多线程 pigz 解压
+        # 加速 tar 解压 - 使用多线程 pixz 解压
         echo "开始解压 Chromium 源码..."
-        # 使用 pigz 多线程解压
-        time pigz -d -c chromium-${{ env.CHROMIUM_VERSION }}.tar.xz | tar x -C ${{ env.CHROMIUM_VERSION }}
+        # 使用 pixz 多线程解压
+        time pixz -d -c chromium-${{ env.CHROMIUM_VERSION }}.tar.xz | tar x -C ${{ env.CHROMIUM_VERSION }}
         
         rm chromium-${{ env.CHROMIUM_VERSION }}.tar.xz
 
