@@ -37,7 +37,8 @@ jobs:
         # 加速 tar 解压 - 使用多线程 pixz 解压
         echo "开始解压 Chromium 源码..."
         # 使用 pixz 多线程解压
-        time pixz -d -c chromium-${{ env.CHROMIUM_VERSION }}.tar.xz | tar x -C ${{ env.CHROMIUM_VERSION }}
+        # time pixz -d -c chromium-${{ env.CHROMIUM_VERSION }}.tar.xz | tar x -C ${{ env.CHROMIUM_VERSION }}
+        tar xzf "chromium-${{ env.CHROMIUM_VERSION }}.tar.xz" -C "${{ env.CHROMIUM_VERSION }}"
         
         rm chromium-${{ env.CHROMIUM_VERSION }}.tar.xz
 
