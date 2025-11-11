@@ -32,7 +32,7 @@ jobs:
         # 加速 tar 解压 - 使用多线程 pigz 解压
         echo "开始解压 Chromium 源码..."
         # 使用 pigz 多线程解压
-        time pigz -d -p 0 -c chromium-${{ env.CHROMIUM_VERSION }}.tar.gz | tar x -C ${{ env.CHROMIUM_VERSION }}
+        time pigz -d -c chromium-${{ env.CHROMIUM_VERSION }}.tar.gz | tar x -C ${{ env.CHROMIUM_VERSION }}
         
         mv ${{ env.CHROMIUM_VERSION }} src
         
